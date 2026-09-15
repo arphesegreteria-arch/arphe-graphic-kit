@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, initial-scale=1">
+  <title>ARPHE — Video title card 1920x1080</title>
+  <link rel="stylesheet" href="../shared/brand.css">
+  <style>
+    @page { size: 1920px 1080px; margin: 0; }
+    html, body, .canvas { width: 1920px; height: 1080px; }
+    .canvas { display: grid; grid-template-columns: 58% 42%; }
+    .copy { display: flex; flex-direction: column; justify-content: center; padding: 96px 110px; }
+    .title { margin: 30px 0; max-width: 950px; font-size: 126px; }
+    .body-copy { max-width: 780px; }
+    .photo-placeholder { width: 100%; height: 100%; border-width: 0 0 0 2px; }
+    .brand-logo { position: absolute; left: 110px; bottom: 70px; width: 210px; }
+  </style>
+</head>
+<body>
+  <main class="canvas">
+    <section class="copy">
+      <div class="eyebrow">Arphé informa</div>
+      <h1 class="title">Titolo del <em>video</em></h1>
+      <p class="body-copy">Sottotitolo o nome del professionista.</p>
+    </section>
+    <div class="photo-placeholder">Inserisci video in bianco e nero</div>
+    <img class="brand-logo" src="../../logos/svg/arphe-logo-ink.svg" alt="Arphé">
+  </main>
+</body>
+</html>
