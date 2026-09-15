@@ -1,0 +1,7 @@
+ARPHE — PALETTE CANONICA
+
+#F8F4EE  Crema       Fondo principale
+#614432  Marrone     Titoli, testo e filetti
+#680C09  Bordeaux    Un solo accento pieno per grafica
+#8D0511  Rosso       Numeri e filetti degli elenchi
+#1B170E  Inchiostro  Logo e testo su fondo chiaro
