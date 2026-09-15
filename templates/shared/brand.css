@@ -1,0 +1,37 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+
+@font-face {
+  font-family: 'Noto Serif Display ARPHE';
+  src: url('../../fonts/noto-serif-display/NotoSerifDisplay-VariableFont_wdthwght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Noto Serif Display ARPHE';
+  src: url('../../fonts/noto-serif-display/NotoSerifDisplay-Italic-VariableFont_wdthwght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+:root {
+  --cream: #F8F4EE;
+  --brown: #614432;
+  --burgundy: #680C09;
+  --red: #8D0511;
+  --ink: #1B170E;
+  --serif: 'Noto Serif Display ARPHE', Georgia, serif;
+  --sans: 'Satoshi', 'DM Sans', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--cream); color: var(--ink); }
+body { font-family: var(--sans); }
+.canvas { position: relative; overflow: hidden; background: var(--cream); }
+.eyebrow { color: var(--brown); font-size: 24px; font-weight: 500; letter-spacing: 4px; text-transform: uppercase; }
+.title { margin: 0; color: var(--brown); font-family: var(--serif); font-weight: 300; line-height: .95; }
+.title em { font-weight: 300; }
+.body-copy { font-size: 28px; line-height: 1.45; }
+.photo-placeholder { display: grid; place-items: center; border: 2px solid rgba(97,68,50,.35); color: var(--brown); background: rgba(97,68,50,.06); font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
+.button { display: inline-block; padding: 24px 54px; background: var(--burgundy); color: white; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.brand-logo { display: block; height: auto; }
