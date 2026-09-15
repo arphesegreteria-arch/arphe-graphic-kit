@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#F8F4EE"/>
+  <text x="64" y="100" fill="#614432" font-family="Satoshi, Arial, sans-serif" font-size="24" font-weight="500" letter-spacing="4">POLIAMBULATORIO A BRESCIA</text>
+  <text x="64" y="230" fill="#614432" font-family="Noto Serif Display, Georgia, serif" font-size="112" font-weight="300">Titolo editoriale</text>
+  <text x="64" y="310" fill="#1B170E" font-family="Satoshi, Arial, sans-serif" font-size="28">Descrizione informativa breve e rassicurante</text>
+  <rect x="64" y="370" width="952" height="670" fill="#F8F4EE" stroke="#614432" stroke-opacity=".35" stroke-width="2"/>
+  <text x="540" y="710" text-anchor="middle" fill="#614432" font-family="Satoshi, Arial, sans-serif" font-size="20" letter-spacing="2">INSERISCI FOTO IN BIANCO E NERO</text>
+  <rect x="64" y="1160" width="330" height="84" fill="#680C09"/>
+  <text x="229" y="1212" text-anchor="middle" fill="#FFFFFF" font-family="Satoshi, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2">SCOPRI IL SERVIZIO</text>
+  <rect x="806" y="1160" width="210" height="84" fill="none" stroke="#614432" stroke-width="2"/>
+  <text x="911" y="1212" text-anchor="middle" fill="#614432" font-family="Satoshi, Arial, sans-serif" font-size="18">INSERISCI LOGO</text>
+</svg>
