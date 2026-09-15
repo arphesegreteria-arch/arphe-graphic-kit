@@ -1,0 +1,8 @@
+ARPHE - CODICI COLORE
+Da incollare nel Brand Kit di Canva (Brand > Colori > aggiungi).
+
+#F8F4EE   Crema      fondo di quasi tutto
+#614432   Marrone    titoli, testo, filetti
+#680C09   Bordeaux   bottoni. L'accento: uno solo per grafica
+#8D0511   Rosso      numeri e filetti degli elenchi
+#1B170E   Inchiostro il nero del logo, per il testo su fondo chiaro

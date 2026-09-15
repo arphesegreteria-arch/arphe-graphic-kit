@@ -1,0 +1,60 @@
+ARPHE - KIT GRAFICO
+Preparato da Beamlight, settembre 2026.
+
+PRIMA DI TUTTO: scompatta la cartella.
+
+  Su Mac       doppio clic sul file .zip
+  Su Windows   tasto destro sul file .zip > "Estrai tutto..." > Estrai
+
+Il documento funziona solo se resta insieme alle sue cartelle, quindi aprirlo
+senza aver prima estratto lo zip lo fa vedere senza logo e con caratteri diversi
+da quelli di Arphe'.
+
+Poi apri "kit-arphe.html" con un doppio clic: si apre nel browser ed e' il
+documento principale. Da li' si stampa anche in PDF:
+
+  Su Mac       Cmd + P   >  in basso a sinistra "PDF" > Salva come PDF
+  Su Windows   Ctrl + P  >  Destinazione: "Salva come PDF" > Salva
+
+
+COSA C'E' DENTRO
+
+  kit-arphe.html   il kit: colori, caratteri, logo, componenti, cosa fare e cosa no
+  colori.txt       i cinque codici colore, pronti da incollare in Canva
+  logo/            il logo nelle due versioni (nero e crema), vettoriale e PNG
+  font/            Noto Serif Display, con il testo della licenza
+  esempi/          una grafica di esempio costruita con questi valori
+  per-AI/          le stesse regole scritte perche' un'AI possa seguirle
+
+
+SE USI CANVA
+
+Sezione 07 del documento: cinque passi per impostare il Brand Kit una volta sola
+(colori, logo, caratteri) e ritrovarli in ogni grafica.
+
+Il caricamento dei caratteri richiede Canva Pro o Teams: sul vostro account c'e',
+quindi i font di Arphe' si caricano senza problemi.
+
+
+SE USI L'INTELLIGENZA ARTIFICIALE
+
+Cartella per-AI/. Allega "ISTRUZIONI-PER-AI.md" alla conversazione e chiedi la
+grafica. In "COME-USARLO.txt" ci sono i passi e un esempio di richiesta.
+
+La cosa piu' importante: chiedi la grafica IN HTML, non come immagine generata.
+Le AI che generano immagini non rispettano i codici colore ne' i caratteri - fanno
+qualcosa "di quel genere". Quelle che scrivono codice li rispettano esattamente.
+
+
+SUI CARATTERI
+
+Noto Serif Display e' nel pacchetto: la sua licenza (SIL Open Font) ne permette
+la libera distribuzione, e il testo integrale e' in font/OFL.txt.
+
+Satoshi NON e' nel pacchetto, e non e' una dimenticanza: la sua licenza non ne
+permette la ridistribuzione da parte nostra. E' gratuito e si scarica dal sito di
+chi lo produce, https://www.fontshare.com/fonts/satoshi - scaricandolo da li' si
+accettano i loro termini, ed e' il modo corretto di averlo.
+
+
+Per qualsiasi dubbio, scrivici.
