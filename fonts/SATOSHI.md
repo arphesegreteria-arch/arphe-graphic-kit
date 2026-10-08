@@ -28,3 +28,7 @@ Per documenti HTML online si può usare il foglio stile ufficiale Fontshare:
 I template di questa repository funzionano anche offline con il fallback tecnico `DM Sans`,
 Arial o sans-serif. Il fallback garantisce l'apertura, ma non sostituisce Satoshi nelle consegne
 grafiche definitive.
+
+Nel template Story/Reel il fallback è osservabile: finché Satoshi Regular 400, Medium 500 e Bold
+700 non risultano tutti disponibili, compare il badge `DRAFT — FONT FALLBACK`. Un file aperto con
+quel badge può essere revisionato, ma non approvato come consegna finale.

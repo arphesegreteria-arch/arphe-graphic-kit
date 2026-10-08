@@ -1,6 +1,7 @@
 from pathlib import Path
 import copy
 import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -11,6 +12,7 @@ from verify_kit import (  # noqa: E402
     broken_local_references,
     canonical_policy_digest,
     load_video_readability_policy,
+    verify_story_reel_template_geometry,
 )
 
 
@@ -100,6 +102,7 @@ class VideoReadabilityPolicyTests(unittest.TestCase):
                 with self.subTest(index=index), self.assertRaises(ValueError):
                     load_video_readability_policy(self.write_policy(root, policy))
 
+
     def test_rejects_boolean_numeric_values(self):
         numeric_paths = (
             ("schema_version",),
@@ -142,6 +145,53 @@ class VideoReadabilityPolicyTests(unittest.TestCase):
                 policy["canvases"]["story_reel_1080x1920"]["essential_safe_area"] = area
                 with self.subTest(area=area), self.assertRaises(ValueError):
                     load_video_readability_policy(self.write_policy(root, policy))
+
+
+class StoryReelTemplateTests(unittest.TestCase):
+    def setUp(self):
+        self.root = Path(__file__).resolve().parents[1]
+        self.policy = load_video_readability_policy(self.root / "tokens" / "video-readability.json")
+
+    def test_essential_nodes_fit_the_canonical_safe_rectangle(self):
+        self.assertEqual(
+            verify_story_reel_template_geometry(self.root, self.policy),
+            [],
+        )
+
+    def test_rejects_the_legacy_96_pixel_bottom_placement(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            shutil.copytree(self.root / "templates", root / "templates")
+            html = root / "templates" / "social" / "story-1080x1920.html"
+            text = html.read_text(encoding="utf-8").replace("bottom: 346px", "bottom: 96px")
+            html.write_text(text, encoding="utf-8")
+
+            errors = verify_story_reel_template_geometry(root, self.policy)
+
+            self.assertTrue(any("bottom" in error for error in errors), errors)
+
+    def test_rejects_missing_essential_or_font_status_markers(self):
+        mutations = (
+            ('data-essential="true"', ""),
+            ('data-font-status="checking"', ""),
+            ('id="font-fallback-badge"', ""),
+            ("document.fonts.ready", "Promise.resolve()"),
+            ('document.fonts.check("400 1em Satoshi")', "true"),
+            ('document.fonts.check("500 1em Satoshi")', "true"),
+            ('document.fonts.check("700 1em Satoshi")', "true"),
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            shutil.copytree(self.root / "templates", root / "templates")
+            html = root / "templates" / "social" / "story-1080x1920.html"
+            original = html.read_text(encoding="utf-8")
+            for needle, replacement in mutations:
+                with self.subTest(needle=needle):
+                    html.write_text(original.replace(needle, replacement, 1), encoding="utf-8")
+                    self.assertTrue(
+                        verify_story_reel_template_geometry(root, self.policy),
+                        f"mutation unexpectedly accepted: {needle}",
+                    )
 
 
 if __name__ == "__main__":

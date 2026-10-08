@@ -150,6 +150,85 @@ def canonical_policy_digest(policy: dict) -> str:
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
+def verify_story_reel_template_geometry(root: Path, policy: dict) -> list[str]:
+    """Verify machine-identifiable Story/Reel essentials and font observability."""
+    errors: list[str] = []
+    canvas = policy["canvases"]["story_reel_1080x1920"]
+    width = canvas["width"]
+    height = canvas["height"]
+    safe = canvas["essential_safe_area"]
+    left = round(width * safe["left"])
+    right = round(width * safe["right"])
+    top = round(height * safe["top"])
+    bottom = round(height * safe["bottom"])
+    right_margin = width - right
+    bottom_margin = height - bottom
+
+    html_path = root / "templates/social/story-1080x1920.html"
+    svg_path = root / "templates/social/story-1080x1920.svg"
+    try:
+        html = html_path.read_text(encoding="utf-8")
+    except OSError as exc:
+        return [f"template Story/Reel HTML non leggibile: {exc}"]
+
+    required_html = {
+        'class="brand-logo" data-essential="true"': "logo HTML essenziale non marcato",
+        'class="photo-placeholder" data-essential="true"': "media HTML essenziale non marcato",
+        'class="copy" data-essential="true"': "contenitore HTML essenziale non marcato",
+        'data-font-status="checking"': "stato font iniziale assente",
+        'id="font-fallback-badge"': "badge fallback font assente",
+        "document.fonts.ready": "attesa document.fonts.ready assente",
+        'document.fonts.check("400 1em Satoshi")': "controllo Satoshi 400 assente",
+        'document.fonts.check("500 1em Satoshi")': "controllo Satoshi 500 assente",
+        'document.fonts.check("700 1em Satoshi")': "controllo Satoshi 700 assente",
+    }
+    for marker, message in required_html.items():
+        if marker not in html:
+            errors.append(message)
+
+    copy_rule = re.search(r"\.copy\s*\{([^}]*)\}", html, re.DOTALL)
+    if not copy_rule:
+        errors.append("regola .copy assente")
+    else:
+        declarations = copy_rule.group(1)
+        expected_declarations = {
+            "left": left,
+            "right": right_margin,
+            "bottom": bottom_margin,
+        }
+        for property_name, expected in expected_declarations.items():
+            match = re.search(rf"\b{property_name}\s*:\s*(-?\d+)px", declarations)
+            if not match or int(match.group(1)) != expected:
+                errors.append(
+                    f".copy {property_name} deve essere {expected}px per la safe area"
+                )
+
+    try:
+        svg_root = ET.parse(svg_path).getroot()
+    except (OSError, ET.ParseError) as exc:
+        errors.append(f"template Story/Reel SVG non leggibile: {exc}")
+        return errors
+
+    essential = [node for node in svg_root.iter() if node.get("data-essential") == "true"]
+    if not essential:
+        errors.append("nodi SVG essenziali non marcati")
+    for node in essential:
+        tag = node.tag.rsplit("}", 1)[-1]
+        try:
+            x = float(node.get("x", "nan"))
+            y = float(node.get("y", "nan"))
+            if tag == "rect":
+                node_right = x + float(node.get("width", "nan"))
+                node_bottom = y + float(node.get("height", "nan"))
+                if not (left <= x and node_right <= right and top <= y and node_bottom <= bottom):
+                    errors.append(f"rettangolo SVG essenziale fuori safe area: {node.get('id', tag)}")
+            elif tag == "text" and not (left <= x <= right and top <= y <= bottom):
+                errors.append(f"testo SVG essenziale fuori safe area: {node.get('id', tag)}")
+        except (TypeError, ValueError):
+            errors.append(f"geometria SVG essenziale non numerica: {node.get('id', tag)}")
+    return errors
+
+
 def broken_local_references(path: Path) -> list[str]:
     """Return relative file references that do not resolve beside an HTML/CSS file."""
     text = path.read_text(encoding="utf-8")
@@ -265,6 +344,14 @@ def verify() -> list[str]:
     if shared_css.is_file():
         for reference in broken_local_references(shared_css):
             errors.append(f"asset locale mancante in templates/shared/brand.css: {reference}")
+
+    policy_path = ROOT / "tokens/video-readability.json"
+    if policy_path.is_file():
+        try:
+            policy = load_video_readability_policy(policy_path)
+            errors.extend(verify_story_reel_template_geometry(ROOT, policy))
+        except ValueError:
+            pass
 
     return errors
 
