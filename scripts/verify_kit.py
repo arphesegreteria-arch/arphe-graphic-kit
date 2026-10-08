@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import struct
@@ -25,6 +26,128 @@ TEMPLATES = {
     "templates/social/story-1080x1920": (1080, 1920),
     "templates/video/title-card-1920x1080": (1920, 1080),
 }
+
+
+def _require_keys(value: object, expected: set[str], location: str) -> dict:
+    if not isinstance(value, dict):
+        raise ValueError(f"{location} deve essere un oggetto")
+    actual = set(value)
+    if actual != expected:
+        raise ValueError(
+            f"chiavi non valide in {location}: attese {sorted(expected)}, trovate {sorted(actual)}"
+        )
+    return value
+
+
+def _require_number(value: object, location: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{location} deve essere numerico")
+    return float(value)
+
+
+def load_video_readability_policy(path: Path) -> dict:
+    """Load and strictly validate the versioned video readability policy."""
+    try:
+        policy = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"policy non valida: {exc}") from exc
+
+    policy = _require_keys(
+        policy,
+        {
+            "schema_version",
+            "policy_version",
+            "canvases",
+            "reading",
+            "review_body",
+            "typography",
+            "technical_fallback_is_final",
+        },
+        "policy",
+    )
+    schema_version = _require_number(policy["schema_version"], "schema_version")
+    if schema_version != 1 or policy["schema_version"] != 1:
+        raise ValueError("schema_version non supportata")
+    if policy["policy_version"] != "ARPHE_VIDEO_READABILITY_V1":
+        raise ValueError("policy_version non supportata")
+    if policy["technical_fallback_is_final"] is not False:
+        raise ValueError("technical_fallback_is_final deve essere false")
+
+    canvases = _require_keys(
+        policy["canvases"], {"story_reel_1080x1920"}, "canvases"
+    )
+    canvas = _require_keys(
+        canvases["story_reel_1080x1920"],
+        {"width", "height", "essential_safe_area"},
+        "canvases.story_reel_1080x1920",
+    )
+    if _require_number(canvas["width"], "canvas.width") != 1080:
+        raise ValueError("canvas.width deve essere 1080")
+    if _require_number(canvas["height"], "canvas.height") != 1920:
+        raise ValueError("canvas.height deve essere 1920")
+    area = _require_keys(
+        canvas["essential_safe_area"],
+        {"left", "right", "top", "bottom"},
+        "essential_safe_area",
+    )
+    left, right, top, bottom = (
+        _require_number(area[key], f"essential_safe_area.{key}")
+        for key in ("left", "right", "top", "bottom")
+    )
+    if not (0 <= left < right <= 1 and 0 <= top < bottom <= 1):
+        raise ValueError("essential_safe_area deve essere ordinata e compresa tra 0 e 1")
+
+    reading = _require_keys(
+        policy["reading"],
+        {
+            "words_per_second",
+            "settle_seconds",
+            "minimum_seconds",
+            "standard_maximum_seconds",
+        },
+        "reading",
+    )
+    for key in reading:
+        value = _require_number(reading[key], f"reading.{key}")
+        if value <= 0:
+            raise ValueError(f"reading.{key} deve essere positivo")
+    if reading["minimum_seconds"] > reading["standard_maximum_seconds"]:
+        raise ValueError("minimum_seconds supera standard_maximum_seconds")
+
+    review_body = _require_keys(
+        policy["review_body"], {"size_tiers", "maximum_lines"}, "review_body"
+    )
+    tiers = review_body["size_tiers"]
+    if not isinstance(tiers, list) or tiers != [0.052, 0.047, 0.042]:
+        raise ValueError("review_body.size_tiers non canonici o non ordinati")
+    for index, value in enumerate(tiers):
+        _require_number(value, f"review_body.size_tiers[{index}]")
+    if _require_number(review_body["maximum_lines"], "review_body.maximum_lines") != 7:
+        raise ValueError("review_body.maximum_lines deve essere 7")
+
+    typography = _require_keys(
+        policy["typography"], {"heading", "body", "label", "button"}, "typography"
+    )
+    expected_typography = {
+        "heading": ("Noto Serif Display", 300),
+        "body": ("Satoshi", 400),
+        "label": ("Satoshi", 500),
+        "button": ("Satoshi", 700),
+    }
+    for role, (family, weight) in expected_typography.items():
+        entry = _require_keys(typography[role], {"family", "weight"}, f"typography.{role}")
+        if entry["family"] != family:
+            raise ValueError(f"famiglia non valida per typography.{role}")
+        if _require_number(entry["weight"], f"typography.{role}.weight") != weight:
+            raise ValueError(f"peso non valido per typography.{role}")
+
+    return policy
+
+
+def canonical_policy_digest(policy: dict) -> str:
+    """Return SHA-256 of the canonical UTF-8 JSON representation."""
+    canonical = json.dumps(policy, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def broken_local_references(path: Path) -> list[str]:
@@ -57,7 +180,7 @@ def verify() -> list[str]:
 
     required = [
         "README.md", "LICENSES.md", "tokens/colors.json", "tokens/colors.css",
-        "tokens/colors.txt", "logos/svg/arphe-logo-ink.svg",
+        "tokens/colors.txt", "tokens/video-readability.json", "logos/svg/arphe-logo-ink.svg",
         "logos/svg/arphe-logo-cream.svg", "fonts/SATOSHI.md",
         "fonts/noto-serif-display/OFL.txt", "elements/README.md",
         "brand-guidelines/ISTRUZIONI-PER-AI.md",
@@ -80,6 +203,13 @@ def verify() -> list[str]:
             values = set(re.findall(r"#[0-9A-Fa-f]{6}", path.read_text(encoding="utf-8")))
             if {value.upper() for value in values} != set(COLORS.values()):
                 errors.append(f"{relative} non contiene esattamente la palette canonica")
+
+    policy_path = ROOT / "tokens/video-readability.json"
+    if policy_path.is_file():
+        try:
+            load_video_readability_policy(policy_path)
+        except ValueError as exc:
+            errors.append(f"tokens/video-readability.json non valido: {exc}")
 
     for role, expected in (("ink", COLORS["ink"]), ("cream", COLORS["cream"])):
         svg = ROOT / f"logos/svg/arphe-logo-{role}.svg"
