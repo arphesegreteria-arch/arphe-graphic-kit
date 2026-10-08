@@ -181,6 +181,7 @@ def verify_story_reel_template_geometry(root: Path, policy: dict) -> list[str]:
         'document.fonts.check("400 1em Satoshi")': "controllo Satoshi 400 assente",
         'document.fonts.check("500 1em Satoshi")': "controllo Satoshi 500 assente",
         'document.fonts.check("700 1em Satoshi")': "controllo Satoshi 700 assente",
+        'document.fonts.check("300 1em Noto Serif Display ARPHE")': "controllo Noto Serif Display 300 assente",
     }
     for marker, message in required_html.items():
         if marker not in html:

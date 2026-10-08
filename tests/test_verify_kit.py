@@ -179,6 +179,7 @@ class StoryReelTemplateTests(unittest.TestCase):
             ('document.fonts.check("400 1em Satoshi")', "true"),
             ('document.fonts.check("500 1em Satoshi")', "true"),
             ('document.fonts.check("700 1em Satoshi")', "true"),
+            ('document.fonts.check("300 1em Noto Serif Display ARPHE")', "true"),
         )
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
