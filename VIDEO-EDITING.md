@@ -23,3 +23,12 @@ Non ingrandire il PNG 512 per un master 4K. Non applicare ombre, contorni, rotaz
 
 Il Graphic Kit descrive la resa grafica. Le procedure operative e i gate di Resolve restano nei
 documenti principali della repository.
+
+## Leggibilità Story/Reel
+
+Nel canvas `1080x1920`, ogni elemento essenziale deve restare nel rettangolo sicuro compreso tra
+`x=86..907` e `y=192..1574`. Il template HTML controlla Satoshi 400, 500 e 700 dopo
+`document.fonts.ready`: se manca anche un solo peso mostra `DRAFT — FONT FALLBACK`.
+
+Il fallback tecnico permette di aprire e correggere il template offline, ma non è una resa finale.
+La consegna è finale solo quando il badge non compare e tutti i pesi richiesti risultano caricati.

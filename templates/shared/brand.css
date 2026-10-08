@@ -35,3 +35,18 @@ body { font-family: var(--sans); }
 .photo-placeholder { display: grid; place-items: center; border: 2px solid rgba(97,68,50,.35); color: var(--brown); background: rgba(97,68,50,.06); font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
 .button { display: inline-block; padding: 24px 54px; background: var(--burgundy); color: white; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 .brand-logo { display: block; height: auto; }
+.font-fallback-badge {
+  position: absolute;
+  z-index: 10;
+  top: 192px;
+  right: 173px;
+  padding: 12px 18px;
+  border: 2px solid var(--red);
+  background: var(--cream);
+  color: var(--red);
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+[data-font-status="ready"] .font-fallback-badge { display: none; }
