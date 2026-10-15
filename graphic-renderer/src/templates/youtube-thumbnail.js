@@ -1,0 +1,9 @@
+import { dataUri, documentShell, escapeHtml } from './base.js';
+
+export const defaults = { width: 1280, height: 720 };
+
+export function createYouTubeThumbnail({ width, height, title, subtitle, colors, logo, background, fontFaces }) {
+  const backgroundCss = background ? `background-image: url("${dataUri(background.contents, background.extension)}");` : '';
+  const css = `*{box-sizing:border-box}html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden}.canvas{position:relative;width:${width}px;height:${height}px;background:${colors.cream};color:${colors.brown};font-family:"Satoshi",sans-serif}.photo{position:absolute;inset:0 0 0 51%;background-position:center;background-size:cover;filter:grayscale(1);${backgroundCss}}.panel{position:absolute;inset:0 49% 0 0;padding:74px 58px;display:flex;flex-direction:column;justify-content:flex-end;background:${colors.cream}}.title{margin:0;max-height:360px;overflow:hidden;padding-block:4px;font-family:"Noto Serif Display ARPHE",serif;font-weight:300;font-size:73px;line-height:1.25;white-space:pre-wrap}.subtitle{margin:28px 0 0;max-height:78px;overflow:hidden;font-size:23px;line-height:1.35;font-weight:400;white-space:pre-wrap}.rule{width:98px;height:12px;background:${colors.burgundy};margin-bottom:auto}.brand-logo{position:absolute;right:52px;top:50px;width:190px;height:auto}.overflow-probe{position:absolute;visibility:hidden;pointer-events:none}`;
+  return documentShell({ fontFaces, css, markup: `<main class="canvas"><div class="photo"></div><section class="panel"><div class="rule"></div><h1 class="title" data-overflow="title">${escapeHtml(title)}</h1>${subtitle ? `<p class="subtitle" data-overflow="subtitle">${escapeHtml(subtitle)}</p>` : ''}</section><img class="brand-logo" alt="ARPHÈ" src="${dataUri(logo.contents, '.svg')}"></main>` });
+}

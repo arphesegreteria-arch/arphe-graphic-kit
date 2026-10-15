@@ -1,0 +1,48 @@
+{
+  "brand": "arphe",
+  "sources": {
+    "colors": "../tokens/colors.json",
+    "typography": "../brand-guidelines/typography.md",
+    "logoRules": "../README.md",
+    "licenses": "../LICENSES.md"
+  },
+  "colors": {
+    "file": "../tokens/colors.json"
+  },
+  "fonts": {
+    "title": {
+      "family": "Noto Serif Display ARPHE",
+      "weight": 300,
+      "style": "normal",
+      "source": {
+        "kind": "file",
+        "file": "../fonts/noto-serif-display/NotoSerifDisplay-VariableFont_wdthwght.ttf"
+      }
+    },
+    "body": {
+      "family": "Satoshi",
+      "weights": [400, 500, 700],
+      "source": {
+        "kind": "workstation-files",
+        "directoryEnvironment": "ARPHE_SATOSHI_DIR",
+        "windowsDefaultDirectory": "%WINDIR%/Fonts",
+        "files": {
+          "400": "Satoshi-Regular.otf",
+          "500": "Satoshi-Medium.otf",
+          "700": "Satoshi-Bold.otf"
+        }
+      },
+      "installation": "../fonts/SATOSHI.md"
+    }
+  },
+  "logos": {
+    "ink": {
+      "required": true,
+      "file": "../logos/svg/arphe-logo-ink.svg"
+    },
+    "cream": {
+      "required": true,
+      "file": "../logos/svg/arphe-logo-cream.svg"
+    }
+  }
+}
