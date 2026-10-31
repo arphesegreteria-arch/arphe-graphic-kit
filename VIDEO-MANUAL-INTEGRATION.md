@@ -14,6 +14,11 @@ C:\ARPHE\
 - Canva importa logo, palette e template dalla clone locale di `arphe-graphic-kit`.
 - Le regole editoriali e le procedure Resolve restano in `video-editing-manual`.
 
+Le regole estetiche approvate per i sottotitoli Fusion verticali vivono in `VIDEO-EDITING.md`.
+Il contratto operativo, i gate e i test restano nel video editing manual, in
+`docs/16_CAPTION_ENGINE_AND_MOBILE_SUBTITLES.md`. I due documenti devono rimanere sincronizzati senza introdurre
+comandi o preset dedicati a un singolo video.
+
 ## Uso da automazioni future
 
 Un'automazione può ricevere come configurazione un percorso locale dedicato, per esempio:
