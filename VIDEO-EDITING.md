@@ -1,5 +1,11 @@
 # Uso nel montaggio video
 
+## Grafia del marchio
+
+La grafia corretta è **Arphé**, oppure **ARPHÉ** nei testi tutti maiuscoli. La e finale ha sempre l’**accento acuto**, anche in corsivo: `é` (Unicode U+00E9), `É` (Unicode U+00C9). Non usare l’accento grave `è`/`È`, il circonflesso, un apostrofo al posto dell’accento o una lettera non accentata nel testo visibile. Normalizzare i cue in Unicode NFC e verificare il carattere prima del render.
+
+La regola deriva dalla grafia presente nelle istruzioni ufficiali `brand-guidelines/ISTRUZIONI-PER-AI.md`. Se documenti storici o precedenti cue riportano ARPHÈ, prevale questa grafia corretta. I nomi tecnici ASCII di file, cartelle, progetti e tool restano invariati. La correzione del marchio appartiene ai dati editoriali e alla documentazione; non aggiungere sostituzioni dedicate al marchio nel codice del bridge.
+
 ## Formati
 
 - `1920x1080`: master orizzontale 16:9.
@@ -33,7 +39,7 @@ Nel canvas `1080x1920`, ogni elemento essenziale deve restare nel rettangolo sic
 Il fallback tecnico permette di aprire e correggere il template offline, ma non è una resa finale.
 La consegna è finale solo quando il badge non compare e tutti i pesi richiesti risultano caricati.
 
-## Sottotitoli Fusion ARPHÈ approvati
+## Sottotitoli Fusion ARPHÉ approvati
 
 Il preset validato per ADV e Reel verticali usa un'unica frase visibile con avanzamento karaoke
 parola per parola. La parola pronunciata riceve lo sfondo bordeaux; le altre restano bianche senza
@@ -54,3 +60,54 @@ sfondo.
 Questa resa è stata approvata il 31 ottobre 2026 sulla review verticale
 `ARPHE_ADV_RICERCA_PERSONALE_REVIEW_V4_TWO_SIZES`. Il riferimento è estetico e generico: non deve
 produrre comandi, preset o eccezioni dedicati a quel singolo video.
+
+## Raffinamento generale dell’11 novembre 2026
+
+Su richiesta dell’utente, il karaoke usa parole più vicine e card aderenti: padding orizzontale complessivo `0.012`, distanza fra card `0.004`. Font, misure `0.050`/`0.065`, colori e timing restano quelli del kit. La separazione stimata fra gli estremi del testo è `0.016`, sopra il minimo `0.014`. Verificare anche i glifi reali nelle catture native.
+
+Per un punch in progressivo su un cue, riusare `CAMERA_ZOOM` con punti frame/scala nei dati del piano: ingresso breve con easing e mantenimento della nuova inquadratura. Un avvicinamento distribuito su tutta la chiusura può essere troppo poco percepibile per questa richiesta. Nessun nuovo codice motion, comando o riferimento a un progetto nel bridge.
+
+## Interlinea karaoke compatta
+
+Raffinamento generale richiesto l’11 novembre 2026: avvicinare anche le due righe. In posizione LOWER, distanza fra i centri delle righe `0.060` e altezza card `0.050`; in UPPER `0.055`/`0.045`. Resta uno spazio verticale libero di `0.010` tra i rettangoli delle card (19,2px su1920px). Il testo mantiene font, grandezze, larghezze e timing approvati. Le card a riga singola mantengono altezza e posizione precedenti.
+
+La funzione generale restituisce `card_height` per parola e il grafo Fusion usa quel valore nella maschera. Non ridurre la sola distanza fra righe lasciando card alte: verificare entrambi i fondi attivi, accenti e corsivi nelle catture native. Nessun riferimento al progetto nel bridge. Patch/test in `reference/patches/2026-11-11-caption-line-spacing/`.
+
+## Gerarchia visiva per ADV e Reel
+
+Il volto e la voce restano il riferimento principale. Gli inserti devono chiarire il contenuto,
+non competere con il relatore.
+
+- L'A-roll mantiene il trattamento colore ARPHÉ approvato e un incarnato naturale.
+- I B-roll fotografici sono in bianco e nero, puliti, senza testo, watermark, split-screen o
+  prima/dopo promozionali.
+- Un B-roll a pieno schermo è ammesso quando copre intenzionalmente l'immagine ma conserva la voce.
+  Quando è importante continuare a vedere il relatore, preferire una card laterale o un inserto più
+  breve.
+- Se un filmato esterno non è fluido anche nel render, sostituirlo con una still verticale ad alta
+  qualità; non conservare un movimento difettoso soltanto per avere “più dinamismo”.
+- Ingresso e uscita seguono parole precise della trascrizione. Un'immagine pertinente ma fuori tempo
+  non è un inserto approvato.
+
+## Card tematiche e chiarezza del contenuto
+
+Una card tematica può tradurre in linguaggio immediato un concetto espresso nel parlato con un
+termine tecnico. Il sottotitolo rimane fedele alla voce; la card ha funzione editoriale separata.
+
+- Testo breve, maiuscolo, Satoshi Bold.
+- Colori esclusivamente dal kit; bordeaux pieno usato come unico accento dominante.
+- Un solo messaggio primario alla volta, dentro la safe area e senza coprire il viso.
+- Controllare entrata, centro e uscita: nessuna lettera può venire tagliata durante l'animazione.
+- Non duplicare nello stesso momento la stessa frase in card e sottotitolo.
+- Non creare comandi bridge, preset o eccezioni dedicati alla frase mostrata.
+
+## Verifica visiva minima
+
+Prima della review controllare almeno apertura, metà e chiusura, entrambe le configurazioni dei
+sottotitoli (una e due righe), tutte le parole enfatizzate, i B-roll e gli estremi temporali delle
+card. Le catture native verificano composizione e margini; fluidità e audio si verificano sul
+render.
+
+La procedura operativa completa per la segreteria è in
+`video-editing-manual/docs/17_ARPHE_SECRETARY_EDITING_WORKFLOW.md`.
+
