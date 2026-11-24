@@ -89,6 +89,29 @@ non competere con il relatore.
 - Ingresso e uscita seguono parole precise della trascrizione. Un'immagine pertinente ma fuori tempo
   non è un inserto approvato.
 
+## Prima comparsa del medico — nome e qualifica
+
+Inserire il titolo di presentazione una volta, alla prima inquadratura utile in cui il medico
+è riconoscibile nel montaggio definitivo. In apertura, agganciarlo al primo fotogramma utile
+dopo il taglio iniziale. Usare due righe allineate a sinistra, con nome e qualifica verificati.
+Esempio approvato: *Dr.ssa Alati* sulla prima riga e *Medico estetico* sulla seconda.
+
+| Elemento | Specifica del riferimento verticale 1080 × 1920 |
+| --- | --- |
+| Nome | Satoshi **Bold Italic 700**, 68 px, con maiuscole e minuscole come nel nome. |
+| Qualifica | Satoshi **Regular Italic 400**, 39 px, con maiuscola iniziale. |
+| Colore e fondo | Testo avorio `#F7F2E8` su fondo trasparente, con il video visibile dietro il titolo. |
+| Ombra | Nero al 47% di opacità, offset verso destra e in basso di `(3, 4)` px sul nome e `(2, 3)` px sulla qualifica. |
+| Posizione | Metà inferiore a sinistra. Origini di disegno dall'angolo in alto a sinistra a `(78, 1110)` px per il nome e `(78, 1196)` px per la qualifica. |
+| Durata e movimento | 2,5 s complessivi (75 frame a 30 fps), con dissolvenza in entrata di 5 frame e in uscita di 7 frame. |
+
+Per risoluzioni proporzionali, scalare le misure dal riferimento. Adattare la posizione
+all’inquadratura quando serve a lasciare liberi volto, sottotitoli karaoke e area delle
+interfacce social. Verificare entrambe le varianti Italic di [Satoshi](fonts/SATOSHI.md)
+sulla postazione e controllare la leggibilità sul filmato reale a titolo pienamente visibile.
+In Resolve, usare una traccia grafica separata. Il riferimento è un overlay ProRes 4444
+con canale alpha, sovrapposto all'A-roll.
+
 ## Card tematiche e chiarezza del contenuto
 
 Una card tematica può tradurre in linguaggio immediato un concetto espresso nel parlato con un
