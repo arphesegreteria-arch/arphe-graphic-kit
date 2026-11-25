@@ -47,9 +47,9 @@ sfondo.
 
 - Font: **Satoshi Bold**, sempre maiuscolo.
 - Parola in evidenza: **Satoshi Bold Italic**, al massimo una per frase.
-- Testo bianco con **contorno esterno scuro**, sia standard sia in evidenza. Su Text+
-  usare l'elemento di shading 2 in modalità Outline e Outside Only. Il riferimento approvato è
-  *Filler naso V2*: `Thickness2 = 0.045`, `Opacity2 = 0.90`, `Alpha2 = 1.0` e RGB normalizzato
+- Testo bianco con **contorno scuro**, sia standard sia in evidenza. Su Text+
+  usare l'elemento di shading 2 in modalità Outline. Il riferimento approvato è
+  *Filler naso V2*: `OutsideOnly2 = 0`, `Thickness2 = 0.045`, `Opacity2 = 0.90`, `Alpha2 = 1.0` e RGB normalizzato
   `0.055 / 0.042 / 0.040`. Verificare la leggibilità su una zona chiara e lo spazio tra le lettere.
 - Misure Fusion ammesse: `0.050` standard e `0.065` evidenza. Non sono consentite misure
   intermedie o riduzioni dinamiche parola per parola.
