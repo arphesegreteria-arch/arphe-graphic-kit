@@ -47,6 +47,10 @@ sfondo.
 
 - Font: **Satoshi Bold**, sempre maiuscolo.
 - Parola in evidenza: **Satoshi Bold Italic**, al massimo una per frase.
+- Testo bianco con **contorno esterno scuro sottile**, sia standard sia in evidenza. Su Text+
+  usare l'elemento di shading 2 in modalità Outline e Outside Only, colore inchiostro
+  `#1B170E`, Thickness `0.018` e alpha `0.75`. Verificare la leggibilità su una zona chiara
+  del girato e che il bordo lasci leggibili gli spazi tra le lettere.
 - Misure Fusion ammesse: `0.050` standard e `0.065` evidenza. Non sono consentite misure
   intermedie o riduzioni dinamiche parola per parola.
 - Lo sfondino usa il token bordeaux del kit, segue la larghezza della parola e conserva margini
